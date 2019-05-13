@@ -1,6 +1,7 @@
 package android.helloandroiders.com.personalexpensetracker;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.Toolbar;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
@@ -17,32 +18,34 @@ import android.view.ViewGroup;
 import android.os.Build;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MessageDetail extends AppCompatActivity {
 
     AppController appController = new AppController();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_message_detail);
         if (savedInstanceState == null) {
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.container, new PlaceholderFragment())
-                  .commit();
+            getSupportFragmentManager().beginTransaction().commit();
         }
 
         Toolbar titleToolbar = (Toolbar) findViewById(R.id.titleToolbar);
-        titleToolbar.setTitle("Transaction Details");
+        titleToolbar.setTitle("Message Detail");
         setSupportActionBar(titleToolbar);
 
+        Intent intent = getIntent();
+        String message = intent.getStringExtra("message");
+        TextView messageView = (TextView) findViewById(R.id.messageView);
+        messageView.setText(message);
 
-        appController.Initialize(this);
 
 
 
@@ -71,30 +74,4 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-
-            TransactionDetails[] data = new TransactionDetails[TransactionManager.getInstance().getTransactionDetails().size()];
-            TransactionManager.getInstance().getTransactionDetails().toArray(data);
-
-            // our adapter instance
-            TransactionViewAdapter adapter = new TransactionViewAdapter(getActivity(), R.layout.listview_layout, data);
-
-            // create a new ListView, set the adapter and item click listener
-            ListView listViewItems = new ListView(getActivity());
-            listViewItems.setAdapter(adapter);
-            listViewItems.setOnItemClickListener(new TransactionListViewItemClickListener());
-
-            return listViewItems;
-        }
-    }
 }

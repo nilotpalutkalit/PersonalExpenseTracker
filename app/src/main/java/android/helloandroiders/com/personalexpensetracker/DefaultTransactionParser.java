@@ -46,7 +46,7 @@ public class DefaultTransactionParser implements IMessageParser {
                 start_index = smsMessage.message.indexOf("INR");
 
             tDetail.transactionType = TransactionType.Debit;
-            tDetail.transactionName = "Other";
+            tDetail.transactionName = "Other Debit";
 
         } else if(smsMessage.message.contains("credited") && (smsMessage.message.contains("will be") == false)) {
 
@@ -55,7 +55,7 @@ public class DefaultTransactionParser implements IMessageParser {
                 start_index = smsMessage.message.indexOf("INR");
 
             tDetail.transactionType = TransactionType.Credit;
-            tDetail.transactionName = "Other";
+            tDetail.transactionName = "Other Credit";
         }
 
         if(start_index==-1 /*|| end_index ==-1*/)

@@ -32,7 +32,18 @@ public class HDFCTransactionParser implements IMessageParser {
         int start_index = -1;
         int end_index = -1;
 
-        if(smsMessage.message.contains("withdrawn") || smsMessage.message.contains("debited") || smsMessage.message.contains("spent")) {
+        if(smsMessage.message.contains("was spent on")) {
+
+            start_index = smsMessage.message.indexOf("Rs.");
+            if(start_index==-1)
+                start_index = smsMessage.message.indexOf("INR");
+
+            //end_index = smsMessage.message.indexOf("was withdrawn using");
+            tDetail.transactionType = TransactionType.Debit;
+            tDetail.transactionName = "HDFC Debit";
+
+        }
+        else if(smsMessage.message.contains("withdrawn") || smsMessage.message.contains("debited") || smsMessage.message.contains("spent")) {
 
             start_index = smsMessage.message.lastIndexOf("Rs.");
             if(start_index==-1)
